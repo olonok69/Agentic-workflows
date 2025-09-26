@@ -6,10 +6,14 @@ from dotenv import load_dotenv
 from openai import OpenAI
 
 # Load API key from .env file
+# Load local .env if available
 load_dotenv()
+
 client = OpenAI(
-    base_url = "https://openai.vocareum.com/v1",
-    api_key=os.getenv("OPENAI_API_KEY"))
+    # Use env var when available; default to OpenAI public endpoint
+    base_url=os.getenv("OPENAI_BASE_URL", "https://api.openai.com/v1"),
+    api_key=os.getenv("OPENAI_API_KEY"),
+)
 
 class Task:
     def __init__(self, name, complexity, priority, deadline="normal"):
